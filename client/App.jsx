@@ -34,21 +34,24 @@ class App extends Component{
             alias: "longitude",
             dataType: "float"
         }];
+
+        fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", {mode: 'cors'})
+        .then(res => res.json())
+        .then(data =>{
+            console.log(data.features);
+        })
     }
 
     getData(table, doneCallback) {
-        var mag = 0,
-            title = "",
-            url = "",
-            lat = 0,
-            lon = 0;
-
         fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
-        .then(res =>{
-            let features = res.jsons().features;
+        .then(res => res.json())
+        .then(data =>{
+            let features = data.features;
             table.appendRows(features.map(feat =>(
                 {
-                    ...feat.props,
+                    mag: feat.properties.mag,
+                    title: feat.properties.title,
+                    url: feat.properties.url,
                     lon: feat.geometry.coordinates[0],
                     lat: feat.geometry.coordinates[1]
                 }

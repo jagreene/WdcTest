@@ -1,6 +1,6 @@
 //Outside
 import React, { Component } from 'react';
-// import tableau from "./lib/tableau"
+import tableau from "./lib/tableau"
 
 //Components
 //Styling
