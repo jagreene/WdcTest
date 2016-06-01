@@ -12,12 +12,12 @@ class Wdc extends Component{
     constructor(props) {
         super(props);
         this.connector = tableau.makeConnector();
-        this.connector.getSchema = cb => {
-            cb({
+        this.connector.getSchema = (cb) => {
+            cb([{
                 id: this.props.id || "tableId",
                 alias: this.props.alias || "tableAlias",
                 column: this.props.cols || []
-            })
+            }])
         };
         this.connector.getData = this.props.getData;
         tableau.registerConnector(this.connector);
