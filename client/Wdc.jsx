@@ -1,6 +1,6 @@
 //Outside
 import React, { Component } from 'react';
-import tableau from "./lib/tableau"
+// import tableau from "./lib/tableau"
 
 //Components
 //Styling
@@ -21,12 +21,14 @@ class Wdc extends Component{
         };
         this.connector.getData = this.props.getData;
         tableau.registerConnector(this.connector);
-    }
 
-    handleClick(event) {
-        this.props.handleClick();
-        tableau.connectionName = this.props.connectionName;
-        tableau.submit();
+        this.handleClick = event => {
+            if (this.props.handleClick){
+                this.props.handleClick();
+            }
+            tableau.connectionName = this.props.connectionName;
+            tableau.submit();
+        };
     }
 
     render() {
