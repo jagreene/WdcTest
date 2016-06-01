@@ -42,20 +42,20 @@ module.exports = {
 
     plugins: [
         new ExtractTextPlugin("../stylesheets/styles.css"),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            comments: false,
-            dropDebugger: true,
-            dropConsole: true,minimize: true,
-            compress: {
-                warnings: false
-            }
-        }),
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         'NODE_ENV': JSON.stringify('production')
+        //     }
+        // }),
+        // new webpack.optimize.DedupePlugin(),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     comments: false,
+        //     dropDebugger: true,
+        //     dropConsole: true,minimize: true,
+        //     compress: {
+        //         warnings: false
+        //     }
+        // }),
         new webpack.ProvidePlugin({
             'Promise': 'es6-promise', // Thanks Aaron (https://gist.github.com/Couto/b29676dd1ab8714a818f#gistcomment-1584602)
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
