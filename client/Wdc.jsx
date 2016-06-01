@@ -16,7 +16,7 @@ class Wdc extends Component{
             cb([{
                 id: this.props.id || "tableId",
                 alias: this.props.alias || "tableAlias",
-                column: this.props.cols || []
+                columns: this.props.cols || []
             }])
         };
         this.connector.getData = this.props.getData;
