@@ -38,7 +38,15 @@ class App extends Component{
         fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", {mode: 'cors'})
         .then(res => res.json())
         .then(data =>{
-            console.log(data.features);
+            console.log(data.features.map(feat =>(
+                {
+                    mag: feat.properties.mag,
+                    title: feat.properties.title,
+                    url: feat.properties.url,
+                    lon: feat.geometry.coordinates[0],
+                    lat: feat.geometry.coordinates[1]
+                }
+            )))
         })
     }
 
