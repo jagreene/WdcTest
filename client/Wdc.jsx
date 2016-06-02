@@ -41,7 +41,43 @@ class Wdc extends Component{
                 columns: cols
             };
 
+            console.log(tableInfo);
             schemaCallback([tableInfo]);
+        };
+
+        // Download the data
+        this.connector.getData = function(table, doneCallback) {
+            var mag = 0,
+                title = "",
+                url = "",
+                lat = 0,
+                lon = 0;
+
+                $.getJSON("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", function(resp) {
+                var feat = resp.features,
+                tableData = [];
+
+                // Iterate over the JSON object
+                for (var i = 0, len = feat.length; i < len; i++) {
+                    mag = feat[i].properties.mag;
+                    title = feat[i].properties.title;
+                    url = feat[i].properties.url;
+                    lon = feat[i].geometry.coordinates[0];
+                    lat = feat[i].geometry.coordinates[1];
+
+                    tableData.push({
+                        "mag": mag,
+                        "title": title,
+                        "url": url,
+                        "lon": lon,
+                        "lat": lat
+                    });
+
+                    }
+
+                    table.appendRows(tableData);
+                    doneCallback();
+            });
         };
 
         // this.connector.getSchema = (cb) => {
@@ -54,14 +90,14 @@ class Wdc extends Component{
         //     console.log(tableInfo);
         //     cb([tableInfo]);
         // };
-        this.connector.getData = this.props.getData;
+        // this.connector.getData = this.props.getData;
         tableau.registerConnector(this.connector);
 
         this.handleClick = event => {
             if (this.props.handleClick){
                 this.props.handleClick();
             }
-            tableau.connectionName = this.props.connectionName;
+            tableau.connectionName = this.props.connectionName || "connection";
             tableau.submit();
         };
     }
