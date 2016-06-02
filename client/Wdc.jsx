@@ -181,7 +181,10 @@ class Wdc extends Component{
             <div
                 className={styles.wdc}
                 id="submitBtn"
-                onClick={this.handleClick}
+                onClick={(e)=> {
+                    tableau.connectionName = "USGS Earthquake Feed"; // This will be the data source name in Tableau
+                    tableau.submit(); // This sends the connector object to Tableau
+                }}
             >
                 {this.props.text}
             </div>
