@@ -188,6 +188,7 @@ class Wdc extends Component{
         return (
             <div
                 className={styles.wdc}
+                id="submitBtn"
                 onClick={this.handleClick}
             >
                 {this.props.text}
