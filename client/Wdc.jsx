@@ -84,13 +84,15 @@ class Wdc extends Component{
 
         tableau.registerConnector(myConnector);
 
-        // Create event listeners for when the user submits the form
-        $(document).ready(function() {
-            $("#submitButton").click(function() {
-                tableau.connectionName = "USGS Earthquake Feed"; // This will be the data source name in Tableau
-                tableau.submit(); // This sends the connector object to Tableau
-            });
-        });
+        this.handleClick = event => {
+            // if (this.props.handleClick){
+            //     this.props.handleClick();
+            // }
+            // tableau.connectionName = this.props.connectionName || "connection";
+            // tableau.submit();
+            tableau.connectionName = "USGS Earthquake Feed"; // This will be the data source name in Tableau
+            tableau.submit(); // This sends the connector object to Tableau
+        };
         // this.connector = tableau.makeConnector();
         // this.connector.getSchema = function(schemaCallback) {
         //     var cols = [{
@@ -172,16 +174,6 @@ class Wdc extends Component{
         // // };
         // // this.connector.getData = this.props.getData;
         // tableau.registerConnector(this.connector);
-
-        // this.handleClick = event => {
-        //     // if (this.props.handleClick){
-        //     //     this.props.handleClick();
-        //     // }
-        //     // tableau.connectionName = this.props.connectionName || "connection";
-        //     // tableau.submit();
-        //     tableau.connectionName = "USGS Earthquake Feed"; // This will be the data source name in Tableau
-        //     tableau.submit(); // This sends the connector object to Tableau
-        // };
     }
 
     render() {
