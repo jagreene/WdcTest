@@ -72,7 +72,7 @@ class Wdc extends Component{
                 columns: this.props.cols || []
             };
 
-            tableau.abortWithError(tableInfo);
+            tableau.abortWithError(`ID: ${tableInfo.id}, Alias: ${tableInfo.alias}, Columns: ${tableInfo.columns}`);
             cb([tableInfo]);
         };
 
