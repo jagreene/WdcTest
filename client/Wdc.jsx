@@ -17,7 +17,7 @@ class Wdc extends Component{
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
             if(tableau.phase == tableau.phaseEnum.gatherDataPhase){
-                tableau.password="test";
+                // tableau.password="test";
                 cb();
             }
 
@@ -38,34 +38,6 @@ class Wdc extends Component{
 
         //define schema getter
         this.connector.getSchema = (cb) => {
-            // var cols = [{
-            //     id: "mag",
-            //     alias: "magnitude",
-            //     dataType: tableau.dataTypeEnum.float
-            //     }, {
-            //     id: "title",
-            //     alias: "title",
-            //     dataType: tableau.dataTypeEnum.string
-            // }, {
-            //     id: "url",
-            //     alias: "url",
-            //     dataType: tableau.dataTypeEnum.string
-            // }, {
-            //     id: "lat",
-            //     alias: "latitude",
-            //     dataType: tableau.dataTypeEnum.float
-            // }, {
-            //     id: "lon",
-            //     alias: "longitude",
-            //     dataType: tableau.dataTypeEnum.float
-            // }];
-
-            // var tableInfo = {
-            //     id: "earthquakeFeed",
-            //     alias: "Earthquakes with magnitude greater than 4.5 in the last seven days",
-            //     columns: cols
-            // };
-
             let tableInfo = {
                 id: this.props.id || "tableId",
                 alias: this.props.alias || "tableAlias",
