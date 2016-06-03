@@ -70,7 +70,8 @@ app.get('/signup/facebook/callback',
 );
 
 //App Routes
-app.get("/", ensureAuthenticated, wdc.getApp);
+app.get("/", wdc.getApp);
+// app.get("/", ensureAuthenticated, wdc.getApp);
 
 //Start Server
 app.listen(PORT, function() {
