@@ -101,7 +101,7 @@ class App extends Component{
                     text={this.state.text}
                     handleClick={this.state.handleClick}
                     connectionName="USGS Earthquake Feed"
-                    authType="custom"
+                    authType="basic"
                     hasAuth={this.state.hasAuth}
                 />
             </div>
