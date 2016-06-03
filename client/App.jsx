@@ -99,7 +99,7 @@ class App extends Component{
                     getData={this.getData}
                     text={this.state.text}
                     connectionName="USGS Earthquake Feed"
-                    authType="basic"
+                    authType="custom"
                     hasAuth={this.state.hasAuth}
                     authRedirect="/signup/facebook"
                 />
