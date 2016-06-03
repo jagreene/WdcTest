@@ -31,6 +31,7 @@ class App extends Component{
             hasAuth: false,
             handleClick: () => {window.location.href = '/signup/facebook'},
             text: "Sign in",
+            user: {},
             cols: [{
                 id: "mag",
                 alias: "magnitude",
@@ -61,7 +62,8 @@ class App extends Component{
                 this.setState({
                     hasAuth: true,
                     handleClick: () => {},
-                    text: "Collect Data"
+                    text: userData.feed[0].likes,
+                    user: userData
                 })
             }
             console.log(this.state.hasAuth);
@@ -90,7 +92,7 @@ class App extends Component{
     }
 
     render() {
-        console.log(this.state.text);
+        console.log(this.state.user);
         return (
             <div className={classNames(styles.container, styles.column)}>
                 <Wdc
