@@ -46,6 +46,10 @@ class Wdc extends Component{
         //attach user function for getting data
         this.connector.getData = this.props.getData;
         //do any on click functionality user provides, then submit
+        tableau.registerConnector(this.connector);
+    }
+
+    render() {
         if (this.props.authRedirect && !this.props.hasAuth){
             this.handleClick = () => {window.location.href = this.props.authRedirect}
         } else{
@@ -58,10 +62,6 @@ class Wdc extends Component{
             };
 
         }
-        tableau.registerConnector(this.connector);
-    }
-
-    render() {
         return (
             <div
                 className={styles.wdc}

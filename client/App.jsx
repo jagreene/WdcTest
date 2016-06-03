@@ -64,7 +64,6 @@ class App extends Component{
                     user: userData
                 })
             }
-            console.log(this.state.hasAuth);
         })
     }
 
@@ -90,7 +89,7 @@ class App extends Component{
     }
 
     render() {
-        console.log(this.state.cols);
+        console.log(this.state.hasAuth);
         return (
             <div className={classNames(styles.container, styles.column)}>
                 <Wdc
