@@ -81,6 +81,8 @@ class App extends Component{
                     getData={this.getData}
                     text="Collect Data"
                     connectionName="USGS Earthquake Feed"
+                    authType="custom"
+                    hasAuth={true}
                 />
             </div>
         );
