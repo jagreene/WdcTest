@@ -7,9 +7,13 @@ var bodyParser = require("body-parser");
 var session = require("express-session");
 var exphbs  = require("express-handlebars");
 var favicon = require('express-favicon');
+var passport = require("passport");
 
 //get routes
 var wdc  = require("./routes/wdc.js")();
+
+// configure auth
+var auth =  require("./auth")(passport);
 
 //set up express
 var app = express();
@@ -44,14 +48,37 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({ secret: 'my_precious',
-                  resave: true,
-                  saveUninitialized: true,
-                }));
+                resave: false,
+                saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 //App Routes
-app.get("/", wdc.getApp);
+app.get("/", ensureAuthenticated, wdc.getApp);
+
+// API routes
+app.get("/api/user", wdc.getUser);
+
+// Auth Routes
+app.get('/signup/facebook',
+        passport.authenticate('facebook-signup',{scope: ['user_posts']})
+       );
+
+app.get('/signup/facebook/callback',
+        passport.authenticate('facebook-signup', { failureRedirect: '/' }),
+        function(req, res) {
+            res.redirect('/');
+        }
+       );
 
 //Start Server
 app.listen(PORT, function() {
     console.log("App running on port:", PORT);
 });
+
+//make sure user is authed before getting to data connector
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) { return next();  }
+    res.redirect('/signup/facebook')
+}
