@@ -29,7 +29,6 @@ class App extends Component{
 
         this.state = {
             hasAuth: false,
-            handleClick: () => {window.location.href = '/signup/facebook'},
             text: "Sign in",
             user: {},
             cols: [{
@@ -61,7 +60,6 @@ class App extends Component{
             if (userData.feed) {
                 this.setState({
                     hasAuth: true,
-                    handleClick: () => {},
                     text: userData.feed[0].likes,
                     user: userData
                 })
@@ -92,7 +90,7 @@ class App extends Component{
     }
 
     render() {
-        console.log(this.state.user);
+        console.log(this.state.cols);
         return (
             <div className={classNames(styles.container, styles.column)}>
                 <Wdc
@@ -101,10 +99,10 @@ class App extends Component{
                     alias= "Earthquakes with magnitude greater than 4.5 in the last seven days"
                     getData={this.getData}
                     text={this.state.text}
-                    handleClick={this.state.handleClick}
                     connectionName="USGS Earthquake Feed"
                     authType="basic"
                     hasAuth={this.state.hasAuth}
+                    authRedirect="/signup/facebook"
                 />
             </div>
         );

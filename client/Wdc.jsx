@@ -40,20 +40,24 @@ class Wdc extends Component{
                 columns: this.props.cols || []
             };
 
-            console.log(tableInfo);
             cb([tableInfo]);
         };
 
         //attach user function for getting data
         this.connector.getData = this.props.getData;
         //do any on click functionality user provides, then submit
-        this.handleClick = event => {
-            if (this.props.handleClick){
-                this.props.handleClick();
-            }
-            tableau.connectionName = this.props.connectionName || "connection";
-            tableau.submit();
-        };
+        if (this.props.authRedirect && !this.props.hasAuth){
+            this.handleClick = () => {window.location.href = this.props.authRedirect}
+        } else{
+            this.handleClick = event => {
+                if (this.props.handleClick){
+                    this.props.handleClick();
+                }
+                tableau.connectionName = this.props.connectionName || "connection";
+                tableau.submit();
+            };
+
+        }
         tableau.registerConnector(this.connector);
     }
 
