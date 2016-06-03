@@ -13,40 +13,58 @@ class App extends Component{
 
     constructor(props) {
         super(props);
-        this.cols = [{
-            id: "mag",
-            alias: "magnitude",
-            dataType: "float"
-        }, {
-            id: "title",
-            alias: "title",
-            dataType: "string"
-        }, {
-            id: "url",
-            alias: "url",
-            dataType:"string"
-        }, {
-            id: "lat",
-            alias: "latitude",
-            dataType: "float"
-        }, {
-            id: "lon",
-            alias: "longitude",
-            dataType: "float"
-        }];
+        // fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", {mode: 'cors'})
+        // .then(res => res.json())
+        // .then(data =>{
+        //     console.log(data.features.map(feat =>(
+        //         {
+        //             mag: feat.properties.mag,
+        //             title: feat.properties.title,
+        //             url: feat.properties.url,
+        //             lon: feat.geometry.coordinates[0],
+        //             lat: feat.geometry.coordinates[1]
+        //         }
+        //     )))
+        // })
 
-        fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", {mode: 'cors'})
+        this.state = {
+            hasAuth: false,
+            handleClick: () => {window.location.href = '/signup/facebook'},
+            text: "Sign in",
+            cols: [{
+                id: "mag",
+                alias: "magnitude",
+                dataType: "float"
+            }, {
+                id: "title",
+                alias: "title",
+                dataType: "string"
+            }, {
+                id: "url",
+                alias: "url",
+                dataType:"string"
+            }, {
+                id: "lat",
+                alias: "latitude",
+                dataType: "float"
+            }, {
+                id: "lon",
+                alias: "longitude",
+                dataType: "float"
+            }]
+        };
+
+        fetch("/api/user", {credentials:'same-origin'})
         .then(res => res.json())
-        .then(data =>{
-            console.log(data.features.map(feat =>(
-                {
-                    mag: feat.properties.mag,
-                    title: feat.properties.title,
-                    url: feat.properties.url,
-                    lon: feat.geometry.coordinates[0],
-                    lat: feat.geometry.coordinates[1]
-                }
-            )))
+        .then(userData => {
+            if (userData.feed) {
+                this.setState({
+                    hasAuth: true,
+                    handleClick: () => {},
+                    text: "Collect Data"
+                })
+            }
+            console.log(this.state.hasAuth);
         })
     }
 
@@ -72,17 +90,19 @@ class App extends Component{
     }
 
     render() {
+        console.log(this.state.text);
         return (
             <div className={classNames(styles.container, styles.column)}>
                 <Wdc
-                    cols={this.cols}
+                    cols={this.state.cols}
                     id="earthquakeFeed"
                     alias= "Earthquakes with magnitude greater than 4.5 in the last seven days"
                     getData={this.getData}
-                    text="Collect Data"
+                    text={this.state.text}
+                    handleClick={this.state.handleClick}
                     connectionName="USGS Earthquake Feed"
                     authType="custom"
-                    hasAuth={true}
+                    hasAuth={this.state.hasAuth}
                 />
             </div>
         );

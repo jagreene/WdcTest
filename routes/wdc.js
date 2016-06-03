@@ -6,6 +6,8 @@ module.exports = function (){
         },
 
         getUser:  function(req, res){
+            console.log(req.user);
+            console.log(req.session);
             res.json(req.user || {});
         }
     }

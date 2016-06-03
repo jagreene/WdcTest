@@ -48,29 +48,29 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({ secret: 'my_precious',
-                resave: false,
+                resave: true,
                 saveUninitialized: true,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-//App Routes
-app.get("/", ensureAuthenticated, wdc.getApp);
 
 // API routes
 app.get("/api/user", wdc.getUser);
 
 // Auth Routes
 app.get('/signup/facebook',
-        passport.authenticate('facebook-signup',{scope: ['user_posts']})
-       );
+    passport.authenticate('facebook-signup',{scope: ['user_posts']})
+);
 
 app.get('/signup/facebook/callback',
-        passport.authenticate('facebook-signup', { failureRedirect: '/' }),
-        function(req, res) {
-            res.redirect('/');
-        }
-       );
+    passport.authenticate('facebook-signup', { failureRedirect: '/' }),
+    function(req, res) {
+        res.redirect('/');
+    }
+);
+
+//App Routes
+app.get("/", ensureAuthenticated, wdc.getApp);
 
 //Start Server
 app.listen(PORT, function() {
@@ -79,6 +79,8 @@ app.listen(PORT, function() {
 
 //make sure user is authed before getting to data connector
 function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next();  }
+    if (req.isAuthenticated()) {
+        return next();
+    }
     res.redirect('/signup/facebook')
 }

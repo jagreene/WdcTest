@@ -20,31 +20,31 @@ module.exports = function(passport){
                 json: true
             };
             request(reqOptions)
-                .then(feedData =>{
-                    user.feed = feedData.data;
-                    return Promise.all(user.feed.map((post) =>{
-                        var reqOptions = {
-                            uri: `https://graph.facebook.com/v2.5/${post.id}/likes`,
-                                qs: {
-                                access_token: accessToken
-                            },
-                            json: true
-                        };
-                        return request(reqOptions);
-                    }))
+            .then(feedData =>{
+                user.feed = feedData.data;
+                return Promise.all(user.feed.map((post) =>{
+                    var reqOptions = {
+                        uri: `https://graph.facebook.com/v2.5/${post.id}/likes`,
+                            qs: {
+                            access_token: accessToken
+                        },
+                        json: true
+                    };
+                    return request(reqOptions);
+                }))
+            })
+            .then(likeData =>{
+                user.feed = user.feed.map((post, idx)=>{
+                    return Object.assign({}, post, {likes:likeData[idx].data.length});
                 })
-                .then(likeData =>{
-                    user.feed = user.feed.map((post, idx)=>{
-                        return Object.assign({}, post, {likes:likeData[idx].data.length});
-                    })
-                    return done(null, user);
-                })
-                .catch(err =>{
-                    console.log(err);
-                    return done(err, false)
-                })
+                return done(null, user);
+            })
+            .catch(err =>{
+                console.log(err);
+                return done(err, false)
+            })
         })
-                )
+    )
 
     //Serialize user into session cookie
     passport.serializeUser(function(user, done) {
