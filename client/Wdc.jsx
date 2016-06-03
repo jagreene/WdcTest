@@ -18,7 +18,7 @@ class Wdc extends Component{
 
             if(tableau.phase == tableau.phaseEnum.gatherDataPhase){
                 if(!this.props.hasAuth){
-                    tableau.abortWithError("Not authed in data gathering phase")
+                    tableau.abortWithError("Not authed in data gathering phase", this.props.hasAuth);
                 }
                 tableau.password="test";
                 cb();
