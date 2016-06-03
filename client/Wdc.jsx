@@ -13,24 +13,23 @@ class Wdc extends Component{
         super(props);
         // Create the connector object
         this.connector = tableau.makeConnector();
-        // this.connector.init = (cb) => {
-        //     tableau.authType = this.props.authType || tableau.authTypeEnum.basi;
+        this.connector.init = (cb) => {
+            tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
-        //     cb();
+            cb();
 
-        //     // If we are not in the data gathering phase, we want to store the token
-        //     // This allows us to access the token in the data gathering phase
-        //     if (tableau.phase == tableau.phaseEnum.interactivePhase || tableau.phase == tableau.phaseEnum.authPhase) {
-        //         if (this.props.hasAuth || true){
-        //             if (tableau.phase == tableau.phaseEnum.authPhase) {
-        //                 // Auto-submit here if we are in the auth phase
-        //                 tableau.submit()
-        //             }
-        //             return;
-        //         }
-
-        //     }
-        // }
+            // If we are not in the data gathering phase, we want to store the token
+            // This allows us to access the token in the data gathering phase
+            if (tableau.phase == tableau.phaseEnum.interactivePhase || tableau.phase == tableau.phaseEnum.authPhase) {
+                if (this.props.hasAuth || true){
+                    if (tableau.phase == tableau.phaseEnum.authPhase) {
+                        // Auto-submit here if we are in the auth phase
+                        tableau.submit()
+                    }
+                    return;
+                }
+            }
+        }
 
         //define schema getter
         this.connector.getSchema = (cb) => {
