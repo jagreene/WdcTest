@@ -17,7 +17,7 @@ class Wdc extends Component{
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
             if(tableau.phase == tableau.phaseEnum.gatherDataPhase){
-                // tableau.password="test";
+                tableau.password= this.props.password || "pw";
                 cb();
             }
 
@@ -25,7 +25,7 @@ class Wdc extends Component{
             // This allows us to access the token in the data gathering phase
             if (tableau.phase == tableau.phaseEnum.interactivePhase || tableau.phase == tableau.phaseEnum.authPhase) {
                 if (this.props.hasAuth || true){
-                    tableau.password="test";
+                    tableau.password= this.props.password || "pw";
                     cb();
                     if (tableau.phase == tableau.phaseEnum.authPhase) {
                         // Auto-submit here if we are in the auth phase
