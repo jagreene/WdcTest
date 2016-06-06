@@ -62,10 +62,10 @@ class App extends Component{
             <div className={classNames(styles.container, styles.column)}>
                 <Wdc
                     cols={this.state.cols}
-                    id="earthquakeFeed"
-                    alias= "Earthquakes with magnitude greater than 4.5 in the last seven days"
+                    id="facebookFeed"
+                    alias= "Recent Facebook Posts"
                     text={this.state.text}
-                    connectionName="USGS Earthquake Feed"
+                    connectionName="Your Facebook Posts"
                     authType="custom"
                     hasAuth={this.state.hasAuth}
                     authRedirect="/signup/facebook"
