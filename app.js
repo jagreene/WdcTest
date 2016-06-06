@@ -9,6 +9,8 @@ var exphbs  = require("express-handlebars");
 var favicon = require('express-favicon');
 var passport = require("passport");
 var mongoose = require('mongoose');
+var mongoURI = process.env.MONGOURI || "mongodb://127.0.0.1:27017/facebook-wdc";
+mongoose.connect(mongoURI);
 
 //get routes
 var wdc  = require("./routes/wdc.js")(mongoose);
