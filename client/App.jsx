@@ -16,11 +16,12 @@ class App extends Component{
         super(props);
 
         var cookie = this.parseCookie("token");
+        var hasAuth = !!cookie;
 
+        console.log(!!cookie);
         this.state = {
-            hasAuth: !!cookie,
-            text: "Sign in",
-            user: {},
+            hasAuth: hasAuth,
+            text: hasAuth? "Analyze Data" : "Sign in",
             endPoint: `http://wdc-react.heroku.com/user?userId=${cookie}`,
             cols: [{
                 id: "likes",

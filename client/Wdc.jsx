@@ -19,7 +19,17 @@ class Wdc extends Component{
             Cookies.set('password', this.props.endPoint);
         }
 
-        this.handleClick = () => {window.location.href = this.props.authRedirect}
+        if (this.props.authRedirect && !this.props.hasAuth){
+            this.handleClick = () => {window.location.href = this.props.authRedirect}
+        } else {
+            this.handleClick = event => {
+                if (this.props.handleClick){
+                    this.props.handleClick();
+                }
+                tableau.connectionName = this.props.connectionName || "connection";
+                tableau.submit();
+            };
+        }
 
         // Create the connector object
         this.connector = tableau.makeConnector();
