@@ -26,13 +26,14 @@ class Wdc extends Component{
         this.connector.init = (cb) => {
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
+            //grab password from either cookie or tableau.password
             var pw = this.getPassword();
             if (tableau.phase == tableau.phaseEnum.gatherDataPhase){
                 tableau.password = pw;
                 cb();
             }
 
-            // If we are not in the data gathering phase, we want to store the token
+            // If we are not in the data gathering phase, we want to store the password
             // This allows us to access the token in the data gathering phase
             if (tableau.phase == tableau.phaseEnum.interactivePhase || tableau.phase == tableau.phaseEnum.authPhase) {
                 if (this.props.hasAuth || true){
@@ -61,12 +62,11 @@ class Wdc extends Component{
         //attach user function for getting data
         this.connector.getData = (table, doneCallback) => {
             //retrieve endpoint from cookie
-            let endPoint = JSON.stringify(Cookies.get(''));
-            let token = Cookies.get('token');
+            let endPoint = Cookies.get('password');
             //Clean endpoint from cookie
             Cookies.remove('password');
 
-            tableau.abortWithError(String(token)+" "+String(endPoint)+" "+ String(tableau.pasword));
+            tableau.abortWithError(String(this.props.endPoint)+" "+String(endPoint)+" "+ String(tableau.pasword));
             fetch(endPoint, {credentials:'same-origin'})
             .then(data => {
                 table.appendRows(this.props.gatherCallback(data));
