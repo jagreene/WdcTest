@@ -12,20 +12,27 @@ class Wdc extends Component{
     constructor(props) {
         super(props);
 
+        if (!this.props.endPoint == null){
+            //Clean endpoint from cookie
+            Cookies.remove('endPoint');
+            //reset cookie
+            Cookies.set('endPoint', this.props.endPoint);
+        }
+
         // Create the connector object
         this.connector = tableau.makeConnector();
         this.connector.init = (cb) => {
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
             //store endpoint in cookie if available so it is accesible in all phases
-            if(this.props.endPoint != null){
+            if (!this.props.endPoint == null){
                 //Clean endpoint from cookie
                 Cookies.remove('endPoint');
                 //reset cookie
                 Cookies.set('endPoint', this.props.endPoint);
             }
 
-            if(tableau.phase == tableau.phaseEnum.gatherDataPhase){
+            if (tableau.phase == tableau.phaseEnum.gatherDataPhase){
                 cb();
             }
 
@@ -85,6 +92,13 @@ class Wdc extends Component{
                 tableau.submit();
             };
 
+        }
+
+        if (!this.props.endPoint == null){
+            //Clean endpoint from cookie
+            Cookies.remove('endPoint');
+            //reset cookie
+            Cookies.set('endPoint', this.props.endPoint);
         }
 
         console.log(Cookies.get('endPoint'));
