@@ -24,7 +24,7 @@ class Wdc extends Component{
         this.connector.init = (cb) => {
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
-            var pw = getPassword();
+            var pw = this.getPassword();
             if (tableau.phase == tableau.phaseEnum.gatherDataPhase){
                 tableau.password = pw;
                 cb();
