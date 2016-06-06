@@ -50,7 +50,7 @@ class Wdc extends Component{
 
         //attach user function for getting data
         this.connector.getData = (table, doneCallback) => {
-            tableau.abortWithError(this.props.endPoint);
+            tableau.abortWithError(tableau.password);
             fetch(`http://wdc-react.heroku.com/api/user?userId=${tableau.password}`, {credentials:'same-origin'})
             .then(data => {
                 table.appendRows(this.props.gatherCallback(data));
@@ -74,6 +74,7 @@ class Wdc extends Component{
             };
 
         }
+        console.log(this.props.endPoint);
         return (
             <div
                 className={styles.wdc}

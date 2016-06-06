@@ -57,7 +57,7 @@ class App extends Component{
     }
 
     render() {
-        console.log(this.state.user);
+        console.log(`http://wdc-react.heroku.com/api/user?userId=${this.state.user._id}`);
         return (
             <div className={classNames(styles.container, styles.column)}>
                 <Wdc
