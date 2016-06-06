@@ -57,7 +57,8 @@ class App extends Component{
                     story: post.message || post.story
                 }
             ))
-        }
+        })
+
         doneCallback();
         // fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
         // .then(res => res.json())
