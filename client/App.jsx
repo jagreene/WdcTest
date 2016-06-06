@@ -46,38 +46,14 @@ class App extends Component{
         })
     }
 
-    getData(table, doneCallback) {
-        fetch("/api/user", {credentials:'same-origin'})
-        .then(res => res.json())
-        .then(userData => {
-            return userData.feed.map(post =>(
-                {
-                    likes: post.likes,
-                    created_time: post.created_time,
-                    story: post.message || post.story
-                }
-            ))
-        })
-
-        doneCallback();
-        // fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
-        // .then(res => res.json())
-        // .then(data =>{
-        //     let features = data.features;
-        //     table.appendRows(features.map(feat =>(
-        //         {
-        //             mag: feat.properties.mag,
-        //             title: feat.properties.title,
-        //             url: feat.properties.url,
-        //             lon: feat.geometry.coordinates[0],
-        //             lat: feat.geometry.coordinates[1]
-        //         }
-        //     )))
-        //     doneCallback();
-        // })
-        // .catch(err =>{
-        //     console.log(err);
-        // })
+    cleanData(data) {
+        return data.feed.map(post =>(
+            {
+                likes: post.likes,
+                created_time: post.created_time,
+                story: post.message || post.story
+            }
+        ))
     }
 
     render() {
@@ -88,12 +64,14 @@ class App extends Component{
                     cols={this.state.cols}
                     id="earthquakeFeed"
                     alias= "Earthquakes with magnitude greater than 4.5 in the last seven days"
-                    getData={this.getData}
                     text={this.state.text}
                     connectionName="USGS Earthquake Feed"
                     authType="custom"
                     hasAuth={this.state.hasAuth}
                     authRedirect="/signup/facebook"
+                    password={this.state.user.id}
+                    endPoint={`http://wdc-react.heroku.com/api/user?userId=${this.state.user.id}`}
+                    gatherCallback={cleanData}
                 />
             </div>
         );

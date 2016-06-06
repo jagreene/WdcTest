@@ -1,7 +1,7 @@
 var request = require('request-promise');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-module.exports = function(passport){
+module.exports = function(mongoose, passport){
     // Configure the Facebook strategy for use by Passport.
     passport.use('facebook-signup', new FacebookStrategy({
         clientID: process.env.FACEBOOK_APP_ID,
@@ -37,6 +37,9 @@ module.exports = function(passport){
                 user.feed = user.feed.map((post, idx)=>{
                     return Object.assign({}, post, {likes:likeData[idx].data.length});
                 })
+                return Users.verifyAndCreate({fbId: profile.id}, user)
+            })
+            .then(user =>{
                 return done(null, user);
             })
             .catch(err =>{

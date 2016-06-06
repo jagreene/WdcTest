@@ -49,7 +49,13 @@ class Wdc extends Component{
         };
 
         //attach user function for getting data
-        this.connector.getData = this.props.getData;
+        this.connector.getData = (table, doneCallback) => {
+            fetch(this.props.endPoint, {credentials:'same-origin'})
+            .then(data => {
+                table.appendRows(this.props.gatherCallback(data));
+                doneCallback()
+            })
+        }
         //do any on click functionality user provides, then submit
         tableau.registerConnector(this.connector);
     }

@@ -8,12 +8,13 @@ var session = require("express-session");
 var exphbs  = require("express-handlebars");
 var favicon = require('express-favicon');
 var passport = require("passport");
+var mongoose = require('mongoose');
 
 //get routes
-var wdc  = require("./routes/wdc.js")();
+var wdc  = require("./routes/wdc.js")(mongoose);
 
 // configure auth
-var auth =  require("./auth")(passport);
+var auth =  require("./auth")(mongoose, passport);
 
 //set up express
 var app = express();
