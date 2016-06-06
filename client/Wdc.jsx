@@ -16,7 +16,7 @@ class Wdc extends Component{
             //Clean endpoint from cookie
             Cookies.remove('password');
             //reset cookie
-            Cookies.set('password', nextProps.endPoint);
+            Cookies.set('password', this.props.endPoint);
         }
 
         this.handleClick = () => {window.location.href = this.props.authRedirect}
