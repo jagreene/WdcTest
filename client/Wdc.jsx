@@ -66,7 +66,7 @@ class Wdc extends Component{
             //Clean endpoint from cookie
             Cookies.remove('password');
 
-            tableau.abortWithError(JSON.stringify(this.props.endPoint)+" "+String(endPoint)+" "+ String(tableau.pasword));
+            tableau.abortWithError(JSON.stringify(this.props)+" "+String(endPoint)+" "+ String(tableau.pasword));
             fetch(endPoint, {credentials:'same-origin'})
             .then(data => {
                 table.appendRows(this.props.gatherCallback(data));
