@@ -1,8 +1,8 @@
 //Outside
 import React, { Component } from 'react';
+import Cookies from 'js-cookie';
 // import tableau from "./lib/tableau"
 
-//Components
 //Styling
 import styles from './styles.scss';
 import classNames from 'classnames';
@@ -11,13 +11,13 @@ class Wdc extends Component{
 
     constructor(props) {
         super(props);
+
         // Create the connector object
         this.connector = tableau.makeConnector();
         this.connector.init = (cb) => {
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
             if(tableau.phase == tableau.phaseEnum.gatherDataPhase){
-                tableau.password= this.props.password || "pw";
                 cb();
             }
 
@@ -25,7 +25,6 @@ class Wdc extends Component{
             // This allows us to access the token in the data gathering phase
             if (tableau.phase == tableau.phaseEnum.interactivePhase || tableau.phase == tableau.phaseEnum.authPhase) {
                 if (this.props.hasAuth || true){
-                    tableau.password= this.props.password || "pw";
                     cb();
                     if (tableau.phase == tableau.phaseEnum.authPhase) {
                         // Auto-submit here if we are in the auth phase
@@ -50,8 +49,13 @@ class Wdc extends Component{
 
         //attach user function for getting data
         this.connector.getData = (table, doneCallback) => {
-            tableau.abortWithError(tableau.password);
-            fetch(`http://wdc-react.heroku.com/api/user?userId=${tableau.password}`, {credentials:'same-origin'})
+            //retrieve endpoint from cookie
+            let endPoint = Cookies.get('endPoint');
+            //Clean endpoint from cookie
+            Cookies.remove('endPoint');
+
+            tableau.abortWithError(endPoint);
+            fetch(endPoint, {credentials:'same-origin'})
             .then(data => {
                 table.appendRows(this.props.gatherCallback(data));
                 doneCallback()
@@ -74,7 +78,12 @@ class Wdc extends Component{
             };
 
         }
-        console.log(this.props.endPoint);
+
+        //store endpoint in cookie if available so it is accesible in all phases
+        if(this.props.endPoint)
+        Cookies.set('endPoint', this.props.endPoint);
+
+        console.log(Cookies.get('endPoint'));
         return (
             <div
                 className={styles.wdc}

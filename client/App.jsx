@@ -18,6 +18,7 @@ class App extends Component{
             hasAuth: false,
             text: "Sign in",
             user: {},
+            endPoint: undefined,
             cols: [{
                 id: "likes",
                 alias: "likes",
@@ -41,6 +42,7 @@ class App extends Component{
                     hasAuth: true,
                     text: "Analyze Data",
                     user: userData
+                    endPoint: `http://wdc-react.heroku.com/api/user?userId=${userData._id}`
                 })
             }
         })
