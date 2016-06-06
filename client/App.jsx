@@ -13,44 +13,23 @@ class App extends Component{
 
     constructor(props) {
         super(props);
-        // fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", {mode: 'cors'})
-        // .then(res => res.json())
-        // .then(data =>{
-        //     console.log(data.features.map(feat =>(
-        //         {
-        //             mag: feat.properties.mag,
-        //             title: feat.properties.title,
-        //             url: feat.properties.url,
-        //             lon: feat.geometry.coordinates[0],
-        //             lat: feat.geometry.coordinates[1]
-        //         }
-        //     )))
-        // })
 
         this.state = {
             hasAuth: false,
             text: "Sign in",
             user: {},
             cols: [{
-                id: "mag",
-                alias: "magnitude",
-                dataType: "float"
+                id: "likes",
+                alias: "likes",
+                dataType: "int"
             }, {
-                id: "title",
-                alias: "title",
+                id: "story",
+                alias: "story",
                 dataType: "string"
             }, {
-                id: "url",
-                alias: "url",
+                id: "created_time",
+                alias: "time",
                 dataType:"string"
-            }, {
-                id: "lat",
-                alias: "latitude",
-                dataType: "float"
-            }, {
-                id: "lon",
-                alias: "longitude",
-                dataType: "float"
             }]
         };
 
@@ -60,7 +39,7 @@ class App extends Component{
             if (userData.feed) {
                 this.setState({
                     hasAuth: true,
-                    text: userData.feed[0].likes,
+                    text: "Analyze Data",
                     user: userData
                 })
             }
@@ -68,24 +47,32 @@ class App extends Component{
     }
 
     getData(table, doneCallback) {
-        fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
-        .then(res => res.json())
-        .then(data =>{
-            let features = data.features;
-            table.appendRows(features.map(feat =>(
-                {
-                    mag: feat.properties.mag,
-                    title: feat.properties.title,
-                    url: feat.properties.url,
-                    lon: feat.geometry.coordinates[0],
-                    lat: feat.geometry.coordinates[1]
-                }
-            )))
-            doneCallback();
-        })
-        .catch(err =>{
-            console.log(err);
-        })
+        table.appendRows(this.state.user.feed.map(post => (
+            {
+                likes: post.likes,
+                created_time: post.created_time,
+                story: post.message || post.story
+            }
+        )))
+        doneCallback();
+        // fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
+        // .then(res => res.json())
+        // .then(data =>{
+        //     let features = data.features;
+        //     table.appendRows(features.map(feat =>(
+        //         {
+        //             mag: feat.properties.mag,
+        //             title: feat.properties.title,
+        //             url: feat.properties.url,
+        //             lon: feat.geometry.coordinates[0],
+        //             lat: feat.geometry.coordinates[1]
+        //         }
+        //     )))
+        //     doneCallback();
+        // })
+        // .catch(err =>{
+        //     console.log(err);
+        // })
     }
 
     render() {
