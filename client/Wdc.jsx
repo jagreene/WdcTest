@@ -77,6 +77,7 @@ class Wdc extends Component{
 
     getPassword() {
         var cookie = Cookies.get("password");
+        var password = ""
         if (!!cookie) {
             password = cookie;
         } else if (!!tableau && !! tableau.password && tableau.password.length > 0){
