@@ -57,7 +57,7 @@ class App extends Component{
     }
 
     render() {
-        console.log(this.state.hasAuth);
+        console.log(this.state.user);
         return (
             <div className={classNames(styles.container, styles.column)}>
                 <Wdc
@@ -70,7 +70,7 @@ class App extends Component{
                     hasAuth={this.state.hasAuth}
                     authRedirect="/signup/facebook"
                     password={this.state.user.id}
-                    endPoint={`http://wdc-react.heroku.com/api/user?userId=${this.state.user.id}`}
+                    endPoint={`http://wdc-react.heroku.com/api/user?userId=${this.state.user._id}`}
                     gatherCallback={this.cleanData}
                 />
             </div>
