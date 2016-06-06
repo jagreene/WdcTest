@@ -59,19 +59,17 @@ class App extends Component{
     }
 
     render() {
-        console.log(`http://wdc-react.heroku.com/api/user?userId=${this.state.user._id}`);
         return (
             <div className={classNames(styles.container, styles.column)}>
                 <Wdc
-                    cols={this.state.cols}
                     id="facebookFeed"
-                    alias= "Recent Facebook Posts"
-                    text={this.state.text}
                     connectionName="Your Facebook Posts"
+                    alias= "Recent Facebook Posts"
+                    cols={this.state.cols}
+                    text={this.state.text}
                     authType="custom"
                     hasAuth={this.state.hasAuth}
                     authRedirect="/signup/facebook"
-                    password={this.state.user.id}
                     endPoint={this.state.endPoint}
                     gatherCallback={this.cleanData}
                 />

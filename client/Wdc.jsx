@@ -14,9 +14,9 @@ class Wdc extends Component{
 
         if (!!this.props.endPoint){
             //Clean endpoint from cookie
-            Cookies.remove('endPoint');
+            Cookies.remove('password');
             //reset cookie
-            Cookies.set('endPoint', nextProps.endPoint);
+            Cookies.set('password', nextProps.endPoint);
         }
         this.handleClick = () => {window.location.href = this.props.authRedirect}
 
@@ -54,7 +54,6 @@ class Wdc extends Component{
                 columns: this.props.cols || []
             };
 
-            // tableau.abortWithError(`ID: ${tableInfo.id}, Alias: ${tableInfo.alias}, Columns: ${tableInfo.columns}`);
             cb([tableInfo]);
         };
 
@@ -72,7 +71,7 @@ class Wdc extends Component{
                 doneCallback()
             })
         }
-        //do any on click functionality user provides, then submit
+
         tableau.registerConnector(this.connector);
     }
 
@@ -104,12 +103,12 @@ class Wdc extends Component{
 
         if (!!nextProps.endPoint){
             //Clean endpoint from cookie
-            Cookies.remove('endPoint');
+            Cookies.remove('password');
             //reset cookie
-            Cookies.set('endPoint', nextProps.endPoint);
+            Cookies.set('password', nextProps.endPoint);
         }
-        console.log(Cookies.get('endPoint'));
     }
+
     render() {
         return (
             <div
