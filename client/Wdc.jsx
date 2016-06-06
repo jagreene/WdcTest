@@ -18,6 +18,7 @@ class Wdc extends Component{
             //reset cookie
             Cookies.set('endPoint', nextProps.endPoint);
         }
+        this.handleClick = () => {window.location.href = nextProps.authRedirect}
 
         // Create the connector object
         this.connector = tableau.makeConnector();
