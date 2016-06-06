@@ -72,7 +72,7 @@ class App extends Component{
                     hasAuth={this.state.hasAuth}
                     authRedirect="/signup/facebook"
                     password={this.state.user.id}
-                    endPoint={`http://wdc-react.heroku.com/api/user?userId=${this.state.user._id}`}
+                    endPoint={this.state.endPoint}
                     gatherCallback={this.cleanData}
                 />
             </div>
