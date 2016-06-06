@@ -18,7 +18,7 @@ class Wdc extends Component{
             //reset cookie
             Cookies.set('endPoint', nextProps.endPoint);
         }
-        this.handleClick = () => {window.location.href = nextProps.authRedirect}
+        this.handleClick = () => {window.location.href = this.props.authRedirect}
 
         // Create the connector object
         this.connector = tableau.makeConnector();
@@ -91,7 +91,7 @@ class Wdc extends Component{
     componentWillReceiveProps(nextProps){
         if (nextProps.authRedirect && !nextProps.hasAuth){
             this.handleClick = () => {window.location.href = nextProps.authRedirect}
-        } else{
+        } else {
             this.handleClick = event => {
                 if (this.props.handleClick){
                     this.props.handleClick();
