@@ -12,27 +12,14 @@ class Wdc extends Component{
     constructor(props) {
         super(props);
 
-        if (!this.props.endPoint == null){
-            //Clean endpoint from cookie
-            Cookies.remove('endPoint');
-            //reset cookie
-            Cookies.set('endPoint', this.props.endPoint);
-        }
-
         // Create the connector object
         this.connector = tableau.makeConnector();
         this.connector.init = (cb) => {
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
-            //store endpoint in cookie if available so it is accesible in all phases
-            if (!this.props.endPoint == null){
-                //Clean endpoint from cookie
-                Cookies.remove('endPoint');
-                //reset cookie
-                Cookies.set('endPoint', this.props.endPoint);
-            }
-
+            var pw = getPassword();
             if (tableau.phase == tableau.phaseEnum.gatherDataPhase){
+                tableau.password = pw;
                 cb();
             }
 
@@ -40,6 +27,7 @@ class Wdc extends Component{
             // This allows us to access the token in the data gathering phase
             if (tableau.phase == tableau.phaseEnum.interactivePhase || tableau.phase == tableau.phaseEnum.authPhase) {
                 if (this.props.hasAuth || true){
+                    tableau.password = pw;
                     cb();
                     if (tableau.phase == tableau.phaseEnum.authPhase) {
                         // Auto-submit here if we are in the auth phase
@@ -69,7 +57,7 @@ class Wdc extends Component{
             //Clean endpoint from cookie
             Cookies.remove('endPoint');
 
-            tableau.abortWithError(String(endPoint)+"new");
+            tableau.abortWithError(String(endPoint)+" "+ String(tableau.pasword));
             fetch(endPoint, {credentials:'same-origin'})
             .then(data => {
                 table.appendRows(this.props.gatherCallback(data));
@@ -80,9 +68,20 @@ class Wdc extends Component{
         tableau.registerConnector(this.connector);
     }
 
-    render() {
-        if (this.props.authRedirect && !this.props.hasAuth){
-            this.handleClick = () => {window.location.href = this.props.authRedirect}
+    getPassword() {
+        var cookie = Cookies.get("password");
+        if (!!cookie) {
+            password = cookie;
+        } else if (!!tableau && !! tableau.password && tableau.password.length > 0){
+            password = tableau.password;
+        }
+
+        return password;
+    }
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.authRedirect && !nextProps.hasAuth){
+            this.handleClick = () => {window.location.href = nextProps.authRedirect}
         } else{
             this.handleClick = event => {
                 if (this.props.handleClick){
@@ -94,14 +93,15 @@ class Wdc extends Component{
 
         }
 
-        if (!this.props.endPoint == null){
+        if (!!nextProps.endPoint){
             //Clean endpoint from cookie
             Cookies.remove('endPoint');
             //reset cookie
-            Cookies.set('endPoint', this.props.endPoint);
+            Cookies.set('endPoint', nextProps.endPoint);
         }
-
         console.log(Cookies.get('endPoint'));
+    }
+    render() {
         return (
             <div
                 className={styles.wdc}
