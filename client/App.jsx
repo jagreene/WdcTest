@@ -18,7 +18,6 @@ class App extends Component{
         var cookie = this.parseCookie("token");
         var hasAuth = !!cookie;
 
-        console.log(!!cookie);
         this.state = {
             hasAuth: hasAuth,
             text: hasAuth? "Analyze Data" : "Sign in",

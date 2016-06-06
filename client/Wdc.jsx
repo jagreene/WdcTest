@@ -12,25 +12,6 @@ class Wdc extends Component{
     constructor(props) {
         super(props);
 
-        if (!!this.props.endPoint){
-            //Clean endpoint from cookie
-            Cookies.remove('password');
-            //reset cookie
-            Cookies.set('password', this.props.endPoint);
-        }
-
-        if (this.props.authRedirect && !this.props.hasAuth){
-            this.handleClick = () => {window.location.href = this.props.authRedirect}
-        } else {
-            this.handleClick = event => {
-                if (this.props.handleClick){
-                    this.props.handleClick();
-                }
-                tableau.connectionName = this.props.connectionName || "connection";
-                tableau.submit();
-            };
-        }
-
         // Create the connector object
         this.connector = tableau.makeConnector();
         this.connector.init = (cb) => {
@@ -72,11 +53,11 @@ class Wdc extends Component{
         //attach user function for getting data
         this.connector.getData = (table, doneCallback) => {
             //retrieve endpoint from cookie
-            let endPoint = Cookies.get('password');
+            let token = Cookies.get('token');
             //Clean endpoint from cookie
-            Cookies.remove('password');
+            Cookies.remove('token');
 
-            tableau.abortWithError(JSON.stringify(this.props)+" "+String(endPoint)+" "+ String(tableau.pasword));
+            tableau.abortWithError(JSON.stringify(this.props.endPoint)+" "+String(token)+" "+ String(tableau.pasword));
             fetch(endPoint, {credentials:'same-origin'})
             .then(data => {
                 table.appendRows(this.props.gatherCallback(data));
@@ -85,21 +66,8 @@ class Wdc extends Component{
         }
 
         tableau.registerConnector(this.connector);
-    }
 
-    getPassword() {
-        var cookie = Cookies.get("password");
-        var password = ""
-        if (!!cookie) {
-            password = cookie;
-        } else if (!!tableau && !! tableau.password && tableau.password.length > 0){
-            password = tableau.password;
-        }
-
-        return password;
-    }
-
-    componentWillReceiveProps(nextProps){
+        //set onClick of button
         if (nextProps.authRedirect && !nextProps.hasAuth){
             this.handleClick = () => {window.location.href = nextProps.authRedirect}
         } else {
@@ -112,11 +80,33 @@ class Wdc extends Component{
             };
         }
 
-        if (!!nextProps.endPoint){
-            //Clean endpoint from cookie
-            Cookies.remove('password');
-            //reset cookie
-            Cookies.set('password', nextProps.endPoint);
+    }
+
+    getPassword() {
+        //get password from cookie first
+        var cookie = Cookies.get("token");
+        var password = ""
+        if (!!cookie) {
+            password = cookie;
+        } else if (!!tableau && !! tableau.password && tableau.password.length > 0){
+            password = tableau.password;
+        }
+
+        return password;
+    }
+
+    componentWillReceiveProps(nextProps){
+        //check if button usage has changed
+        if (nextProps.authRedirect && !nextProps.hasAuth){
+            this.handleClick = () => {window.location.href = nextProps.authRedirect}
+        } else {
+            this.handleClick = event => {
+                if (this.props.handleClick){
+                    this.props.handleClick();
+                }
+                tableau.connectionName = this.props.connectionName || "connection";
+                tableau.submit();
+            };
         }
     }
 
