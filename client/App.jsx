@@ -41,7 +41,7 @@ class App extends Component{
                 this.setState({
                     hasAuth: true,
                     text: "Analyze Data",
-                    user: userData
+                    user: userData,
                     endPoint: `http://wdc-react.heroku.com/api/user?userId=${userData._id}`
                 })
             }
