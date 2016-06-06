@@ -68,8 +68,8 @@ class Wdc extends Component{
         tableau.registerConnector(this.connector);
 
         //set onClick of button
-        if (nextProps.authRedirect && !nextProps.hasAuth){
-            this.handleClick = () => {window.location.href = nextProps.authRedirect}
+        if (this.props.authRedirect && !this.props.hasAuth){
+            this.handleClick = () => {window.location.href = this.props.authRedirect}
         } else {
             this.handleClick = event => {
                 if (this.props.handleClick){
