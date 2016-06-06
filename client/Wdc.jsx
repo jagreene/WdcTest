@@ -12,6 +12,13 @@ class Wdc extends Component{
     constructor(props) {
         super(props);
 
+        if (!!this.props.endPoint){
+            //Clean endpoint from cookie
+            Cookies.remove('endPoint');
+            //reset cookie
+            Cookies.set('endPoint', nextProps.endPoint);
+        }
+
         // Create the connector object
         this.connector = tableau.makeConnector();
         this.connector.init = (cb) => {
