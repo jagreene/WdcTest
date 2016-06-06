@@ -27,4 +27,20 @@ usersSchema.statics.findOrCreate = function (findParams, userData){
     })
 }
 
+usersSchema.statics.verifyAndCreate = function (findParams, userData){
+    return new Promise((resolve, reject) =>{
+        this.find(findParams, (err, users) =>{
+            if (err) {reject(err)}
+            else {
+                if (users.length === 0){
+                    var newUser = new this(Object.assign(userData, findParams))
+                    resolve(newUser.save())
+                } else {
+                    reject(new Error("User already Exists"))
+                }
+            }
+        })
+    })
+}
+
 module.exports = mongoose.model('User', usersSchema);

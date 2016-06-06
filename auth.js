@@ -1,3 +1,4 @@
+var Users = require('./models/users');
 var request = require('request-promise');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -37,7 +38,7 @@ module.exports = function(mongoose, passport){
                 user.feed = user.feed.map((post, idx)=>{
                     return Object.assign({}, post, {likes:likeData[idx].data.length});
                 })
-                return Users.verifyAndCreate({fbId: profile.id}, user)
+                return Users.findOrCreate({fbId: profile.id}, user)
             })
             .then(user =>{
                 return done(null, user);
@@ -51,12 +52,13 @@ module.exports = function(mongoose, passport){
 
     //Serialize user into session cookie
     passport.serializeUser(function(user, done) {
-        done(null, user);
+        done(null, user._id);
     });
 
     //Deserialize user from session cookie
-    passport.deserializeUser(function(user, done) {
-        done(null, user);
+    passport.deserializeUser(function(id, done) {
+        Users.findById(id, function (err, user) {
+            done(err, user);
+        });
     });
-
 }
