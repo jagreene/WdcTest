@@ -17,6 +17,11 @@ class Wdc extends Component{
         this.connector.init = (cb) => {
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
+            //store endpoint in cookie if available so it is accesible in all phases
+            if(this.props.endPoint){
+                Cookies.set('endPoint', this.props.endPoint);
+            }
+
             if(tableau.phase == tableau.phaseEnum.gatherDataPhase){
                 cb();
             }
@@ -78,10 +83,6 @@ class Wdc extends Component{
             };
 
         }
-
-        //store endpoint in cookie if available so it is accesible in all phases
-        if(this.props.endPoint)
-        Cookies.set('endPoint', this.props.endPoint);
 
         console.log(Cookies.get('endPoint'));
         return (
