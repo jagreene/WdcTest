@@ -18,7 +18,7 @@ class Wdc extends Component{
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
 
             //store endpoint in cookie if available so it is accesible in all phases
-            if(this.props.endPoint){
+            if(this.props.endPoint != null){
                 Cookies.set('endPoint', this.props.endPoint);
             }
 

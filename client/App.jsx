@@ -18,7 +18,7 @@ class App extends Component{
             hasAuth: false,
             text: "Sign in",
             user: {},
-            endPoint: undefined,
+            endPoint: null,
             cols: [{
                 id: "likes",
                 alias: "likes",
