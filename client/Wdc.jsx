@@ -61,7 +61,7 @@ class Wdc extends Component{
         //attach user function for getting data
         this.connector.getData = (table, doneCallback) => {
             //retrieve endpoint from cookie
-            let endPoint = Cookies.get('');
+            let endPoint = JSON.stringify(Cookies.get(''));
             let token = Cookies.get('token');
             //Clean endpoint from cookie
             Cookies.remove('password');
