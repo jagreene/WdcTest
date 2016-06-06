@@ -19,6 +19,9 @@ class Wdc extends Component{
 
             //store endpoint in cookie if available so it is accesible in all phases
             if(this.props.endPoint != null){
+                //Clean endpoint from cookie
+                Cookies.remove('endPoint');
+                //reset cookie
                 Cookies.set('endPoint', this.props.endPoint);
             }
 
@@ -59,7 +62,7 @@ class Wdc extends Component{
             //Clean endpoint from cookie
             Cookies.remove('endPoint');
 
-            tableau.abortWithError(endPoint);
+            tableau.abortWithError(String(endPoint)+"new");
             fetch(endPoint, {credentials:'same-origin'})
             .then(data => {
                 table.appendRows(this.props.gatherCallback(data));
