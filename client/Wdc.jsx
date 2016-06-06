@@ -12,13 +12,13 @@ class Wdc extends Component{
     constructor(props) {
         super(props);
 
-        console.log(Cookies.get("token"));
         if (!!this.props.endPoint){
             //Clean endpoint from cookie
             Cookies.remove('password');
             //reset cookie
             Cookies.set('password', nextProps.endPoint);
         }
+
         this.handleClick = () => {window.location.href = this.props.authRedirect}
 
         // Create the connector object
@@ -61,7 +61,7 @@ class Wdc extends Component{
         //attach user function for getting data
         this.connector.getData = (table, doneCallback) => {
             //retrieve endpoint from cookie
-            let endPoint = Cookies.get('password');
+            let endPoint = Cookies.get('');
             let token = Cookies.get('token');
             //Clean endpoint from cookie
             Cookies.remove('password');
@@ -100,7 +100,6 @@ class Wdc extends Component{
                 tableau.connectionName = this.props.connectionName || "connection";
                 tableau.submit();
             };
-
         }
 
         if (!!nextProps.endPoint){
