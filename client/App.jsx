@@ -47,13 +47,17 @@ class App extends Component{
     }
 
     getData(table, doneCallback) {
-        table.appendRows(this.state.user.feed.map(post => (
-            {
-                likes: post.likes,
-                created_time: post.created_time,
-                story: post.message || post.story
-            }
-        )))
+        fetch("/api/user", {credentials:'same-origin'})
+        .then(res => res.json())
+        .then(userData => {
+            return userData.feed.map(post =>(
+                {
+                    likes: post.likes,
+                    created_time: post.created_time,
+                    story: post.message || post.story
+                }
+            ))
+        }
         doneCallback();
         // fetch("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
         // .then(res => res.json())
