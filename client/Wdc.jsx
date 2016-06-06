@@ -12,6 +12,7 @@ class Wdc extends Component{
     constructor(props) {
         super(props);
 
+        console.log(Cookies.get("token"));
         if (!!this.props.endPoint){
             //Clean endpoint from cookie
             Cookies.remove('password');
@@ -60,11 +61,12 @@ class Wdc extends Component{
         //attach user function for getting data
         this.connector.getData = (table, doneCallback) => {
             //retrieve endpoint from cookie
-            let endPoint = Cookies.get('endPoint');
+            let endPoint = Cookies.get('password');
+            let token = Cookies.get('token');
             //Clean endpoint from cookie
-            Cookies.remove('endPoint');
+            Cookies.remove('password');
 
-            tableau.abortWithError(String(endPoint)+" "+ String(tableau.pasword));
+            tableau.abortWithError(String(token)+" "+String(endPoint)+" "+ String(tableau.pasword));
             fetch(endPoint, {credentials:'same-origin'})
             .then(data => {
                 table.appendRows(this.props.gatherCallback(data));

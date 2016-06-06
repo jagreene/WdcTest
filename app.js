@@ -50,6 +50,7 @@ app.set("view engine", "handlebars");
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
 app.use(session({ secret: 'my_precious',
                 resave: true,
                 saveUninitialized: true,
@@ -68,6 +69,8 @@ app.get('/signup/facebook',
 app.get('/signup/facebook/callback',
     passport.authenticate('facebook-signup', { failureRedirect: '/' }),
     function(req, res) {
+        console.log(req.user._id);
+        res.cookie('token', req.user._id, {});
         res.redirect('/');
     }
 );

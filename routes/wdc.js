@@ -7,7 +7,7 @@ module.exports = function (mongoose){
         },
 
         getUser:  function(req, res){
-            console.log("Req:", req.query, req.body, req.params);
+            console.log("Req:", req.query, req.body, req.params, req.cookie);
             var userId = req.user? req.user._id : req.query.userId;
             console.log("ID", userId);
             if (userId){
