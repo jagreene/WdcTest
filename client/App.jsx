@@ -1,6 +1,7 @@
 //Outside
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import Cookies from 'js-cookie';
 
 //Components
 import Wdc from './Wdc.jsx';
@@ -14,11 +15,13 @@ class App extends Component{
     constructor(props) {
         super(props);
 
+        var cookie = this.parseCookie("token");
+
         this.state = {
-            hasAuth: false,
+            hasAuth: !!cookie,
             text: "Sign in",
             user: {},
-            endPoint: null,
+            endPoint: `http://wdc-react.heroku.com/user?userId=${cookie}`,
             cols: [{
                 id: "likes",
                 alias: "likes",
@@ -33,19 +36,15 @@ class App extends Component{
                 dataType:"string"
             }]
         };
+    }
 
-        fetch("/api/user", {credentials:'same-origin'})
-        .then(res => res.json())
-        .then(userData => {
-            if (userData.feed) {
-                this.setState({
-                    hasAuth: true,
-                    text: "Analyze Data",
-                    user: userData,
-                    endPoint: `http://wdc-react.herokuapp.com/api/user?userId=${userData._id}`
-                })
-            }
-        })
+    parseCookie(name){
+        let cookie = Cookies.get(name);
+        if (!!cookie){
+            return cookie.slice(3, -2);
+        } else {
+            return undefined
+        }
     }
 
     cleanData(data) {
