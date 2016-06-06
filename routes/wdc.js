@@ -8,7 +8,7 @@ module.exports = function (mongoose){
 
         getUser:  function(req, res){
             console.log(req.user)
-            var userId = req.user._id || req.query.userId
+            var userId = req.user? req.user._id : req.query.userId
             if (userId){
                 Users.findById(userId).exec()
                 .then(user =>{
