@@ -40,7 +40,7 @@ class App extends Component{
 
     parseCookie(name){
         let cookie = Cookies.get(name);
-        if (!!cookie){
+        if (!!cookie && cookie.length > 0){
             return cookie.slice(3, -2);
         } else {
             return undefined
@@ -65,12 +65,13 @@ class App extends Component{
                     connectionName="Your Facebook Posts"
                     alias= "Recent Facebook Posts"
                     cols={this.state.cols}
+                    endPoint={this.state.endPoint}
+                    gatherCallback={this.cleanData}
                     text={this.state.text}
                     authType="custom"
                     hasAuth={this.state.hasAuth}
                     authRedirect="/signup/facebook"
-                    endPoint={this.state.endPoint}
-                    gatherCallback={this.cleanData}
+                    authPurpose="ephemerel"
                 />
             </div>
         );

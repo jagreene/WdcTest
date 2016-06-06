@@ -14,8 +14,11 @@ class Wdc extends Component{
 
         // Create the connector object
         this.connector = tableau.makeConnector();
+
+        //init function
         this.connector.init = (cb) => {
             tableau.authType = this.props.authType || tableau.authTypeEnum.basic;
+            tableau.authPurpose = this.props.authPurpose || tableau.authPurposeEnum.ephemerel;
 
             //grab password from either cookie or tableau.password
             var pw = this.getPassword();
@@ -30,11 +33,11 @@ class Wdc extends Component{
                 if (this.props.hasAuth || true){
                     tableau.password = pw;
                     cb();
+
                     if (tableau.phase == tableau.phaseEnum.authPhase) {
                         // Auto-submit here if we are in the auth phase
                         tableau.submit()
                     }
-                    return;
                 }
             }
         }
@@ -79,16 +82,16 @@ class Wdc extends Component{
                 tableau.submit();
             };
         }
-
     }
 
     getPassword() {
         //get password from cookie first
         var cookie = Cookies.get("token");
-        var password = ""
+        var password = "";
+
         if (!!cookie) {
             password = cookie;
-        } else if (!!tableau && !! tableau.password && tableau.password.length > 0){
+        } else if (!!tableau && !!tableau.password && tableau.password.length > 0){
             password = tableau.password;
         }
 
